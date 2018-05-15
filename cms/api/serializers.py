@@ -3,6 +3,7 @@ from rest_framework.relations import HyperlinkedIdentityField
 from rest_framework.serializers import ModelSerializer
 
 from cms.models import PostModel
+from comments.models import Comments
 
 
 class PostListSerializer(ModelSerializer):
@@ -10,8 +11,9 @@ class PostListSerializer(ModelSerializer):
         lookup_field='pk',
         view_name='postapi:detailstudent'
     )
-    user = SerializerMethodField()    #for getting username instead of the id we had shown
-    #image=SerializerMethodField()
+    user = SerializerMethodField()  # for getting username instead of the id we had shown
+    # image=SerializerMethodField()
+    comments = SerializerMethodField()
 
     class Meta:
         model = PostModel
@@ -23,19 +25,24 @@ class PostListSerializer(ModelSerializer):
             'createdDate',
             'user',
             'image',
+            'comments',
             # 'edit_url',
         ]
-    def get_user(self,obj):
+
+    def get_user(self, obj):
         return obj.user.username
 
-
-    def get_image(self,obj):
+    def get_image(self, obj):
         try:
-            image=obj.image.url
+            image = obj.image.url
         except:
-            image=None
+            image = None
 
         return request.build_absolute_uri(obj.image)
+
+    def get_comments(self, obj):
+        return obj.comments_set.all()
+
 
 class PostCreateUpdateSerializer(ModelSerializer):
     class Meta:

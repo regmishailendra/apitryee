@@ -19,6 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'api/',include(("cms.api.urls","postapiappname"),namespace='postapi'))
+    url(r'api/',include(("cms.api.urls","postapiappname"),namespace='postapi')),
+    url(r'comments/',include("comments.api.urls")),
+
   #it was okay as include("cms.api.urls",namespace='postapi') but django 2 requires app name so its kept here and url file
 ]

@@ -26,7 +26,7 @@ class PostListApiView(ListAPIView):
 
 
 class PostCreateApiView(CreateAPIView):
-    queryset = PostModel.objects.all()
+    #queryset = PostModel.objects.all()
     serializer_class = PostCreateUpdateSerializer
     permission_classes = [IsAuthenticated]
 
